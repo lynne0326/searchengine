@@ -31,7 +31,7 @@ public class ExpansionTermUtil {
             for (int i = 0; i < scoreList.size(); i++) {
                 int curDoc = scoreList.getDocid(i);
                 TermVector termVector = new TermVector(curDoc, fieldName);
-                for (int j = 0; j < termVector.positionsLength(); j++) {
+                for (int j = 0; j < termVector.stemsLength(); j++) {
                     if (termVector.stemString(j) == null || termVector.stemString(j).indexOf(".") != -1 || termVector.stemString(j).indexOf(",") != -1)
                         continue;
                     tmp.add(termVector.stemString(j));
@@ -104,26 +104,5 @@ public class ExpansionTermUtil {
         }
     }
 
-//    public static void writeExpanQuery(String originalFile, String expansionFile, String tmpFile, double w) {
-//        try (BufferedReader bufIn = new BufferedReader(new FileReader(new File(originalFile)));
-//             BufferedReader bufIn2 = new BufferedReader(new FileReader(new File(expansionFile)));
-//             BufferedWriter bufOut = new BufferedWriter(new FileWriter(new File(tmpFile)))
-//        ) {
-//            String line1 = null;
-//            String line2 = null;
-//            while ((line1 = bufIn.readLine()) != null) {
-//                if (line1.isEmpty()) continue;
-//                StringBuilder sb = new StringBuilder(line1.split(":")[0].trim() + ": #wand ( ").append(w+" #and ( ").append(line1.split(":")[1].trim()).append(") ");
-//                line2 = bufIn2.readLine();
-//                sb.append(1 - w).append(" ").append(line2.split(":")[1].trim()).append(" )");
-//                bufOut.write(sb.toString());
-//                bufOut.newLine();
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 }

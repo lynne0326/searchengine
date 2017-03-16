@@ -74,20 +74,17 @@ public class QryEval {
                 processQueryFile(parameters.get("queryFilePath"), model);
                 //Extract top n docs
                 scoreLists = TrecReader.readPartialRes(OUTPUT_PATH, fbDocs);
-                Map<String, Set<String>> potentialTerms = ExpansionTermUtil.getPotentialTerms(scoreLists, "body");
-                Map<String, List<ExpansionTermUtil.Entry>> topmTerms = ExpansionTermUtil.getTopTerms(potentialTerms, scoreLists, fbMu, fbTerms);
-                //turn fb on
-                model.fb = true;
-                model.topmTerms = topmTerms;
-                //Write expansion queries
-                ExpansionTermUtil.writeExpanQuery(fbExpansionQueryFile, topmTerms);
-//                ExpansionTermUtil.writeExpanQuery(parameters.get("queryFilePath"), fbExpansionQueryFile, tmpFile, fbOrigWeight);
-                processQueryFile(parameters.get("queryFilePath"), model);
             }
-        } else {
-            //  Perform experiments.
-            processQueryFile(parameters.get("queryFilePath"), model);
+            Map<String, Set<String>> potentialTerms = ExpansionTermUtil.getPotentialTerms(scoreLists, "body");
+            Map<String, List<ExpansionTermUtil.Entry>> topmTerms = ExpansionTermUtil.getTopTerms(potentialTerms, scoreLists, fbMu, fbTerms);
+            //turn fb on
+            model.fb = true;
+            model.topmTerms = topmTerms;
+            //Write expansion queries
+            ExpansionTermUtil.writeExpanQuery(fbExpansionQueryFile, topmTerms);
         }
+        //  Perform experiments.
+        processQueryFile(parameters.get("queryFilePath"), model);
         //  Clean up.
 
         timer.stop();
